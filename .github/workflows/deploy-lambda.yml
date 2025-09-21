@@ -1,4 +1,4 @@
-name: Deploy Lambda
+name: Deploy Lambda Code
 
 on:
   push:
@@ -13,9 +13,6 @@ jobs:
       # Step 1: Checkout repo
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Debug AWS credentials
-        run: aws sts get-caller-identity
 
 
       # Step 2: Set up AWS CLI
