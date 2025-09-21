@@ -1,0 +1,37 @@
+name: Deploy Lambda
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repo
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up AWS CLI
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{secrets.AWS_REGION}}
+
+      # Step 3: Zip the Lambda code
+      - name: Zip Lambda function
+        run: |
+          cd scripts/lambda
+          zip -r ../../function.zip test.py
+          cd ../../
+
+      # Step 4: Deploy to Lambda
+      - name: Deploy to Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name arn:aws:lambda:ap-south-1:500406603480:function:stock-data-pipeline \
+            --zip-file fileb://function.zip
