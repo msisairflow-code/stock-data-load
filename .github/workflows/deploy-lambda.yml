@@ -23,15 +23,32 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: 'ap-south-1'
 
+
       # Step 3: Zip the Lambda code
       - name: Zip Lambda function
         run: |
-          zip -r ../../function.zip scripts/lambda/*
-          cd ../../
-
+          zip -r function.zip scripts/lambda/*
+      
       # Step 4: Deploy to Lambda
       - name: Deploy to Lambda
         run: |
           aws lambda update-function-code \
-            --function-name arn:aws:lambda:ap-south-1:500406603480:function:stock-data-pipeline \
+            --function-name stock-data-pipeline \
             --zip-file fileb://function.zip
+
+
+      # # Step 3: Zip the Lambda code
+      # - name: Zip Lambda function
+      #   run: |
+      #     zip -r ../../function.zip scripts/lambda/*
+      #     cd ../../
+
+      # # Step 4: Deploy to Lambda
+      # - name: Deploy to Lambda
+      #   run: |
+      #     aws lambda update-function-code \
+      #       --function-name arn:aws:lambda:ap-south-1:500406603480:function:stock-data-pipeline \
+      #       --zip-file fileb://function.zip
+
+
+
