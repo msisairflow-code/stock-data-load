@@ -26,7 +26,6 @@ jobs:
       # Step 3: Zip the Lambda code
       - name: Zip Lambda function
         run: |
-          cd scripts/lambda
           zip -r ../../function.zip scripts/lambda/*
           cd ../../
 
